@@ -2,9 +2,9 @@
 
 (asdf:defsystem #:pong
   :serial t
-  :description "Describe pong here"
-  :author "Your Name <your.name@example.com>"
-  :license "Specify license here"
+  :description "Modern Opengl networked pong"
+  :author "Ezra Rush <rushwest@gmail.com>"
+  :license "The MIT License (MIT) Copyright (c) 2014 Ezra Rush"
   :depends-on (#:sb-cga
 	       #:cl-opengl
 	       #:sdl2
