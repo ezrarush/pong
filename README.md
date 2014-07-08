@@ -13,22 +13,21 @@ SBCL does not have a safe way to interrupt a thread and cl-sdl2 must run on the 
 Run the following from the SBCL shell and not as an inferior-lisp in emacs.
 
 ```lisp
-(ql:quickload "swank")
 (ql:quickload "pong")
-(bt:make-thread (lambda () (swank:create-server :port 4005 :dont-close t)))
+; (ql:quickload "swank")
+; (bt:make-thread (lambda () (swank:create-server :port 4005 :dont-close t)))
 (sdl2:make-this-thread-main (lambda () (pong:main)))
 ```
 
-You now may use slime with this SBCL image by executing the emacs command "slime-connect".
+You may use slime with this SBCL image by uncommenting the first two lines and executing thecommand "slime-connect" in emacs.
 
 ###Client
 
 Run the following in a second SBCL instance shell.
 
 ```lisp
-(ql:quickload "swank")
+
 (ql:quickload "pong")
-(bt:make-thread (lambda () (swank:create-server :port 4006 :dont-close t)))
 (sdl2:make-this-thread-main (lambda () (pong:main nil "127.0.0.1")))
 ```
 
