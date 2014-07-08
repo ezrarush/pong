@@ -6,6 +6,12 @@ Modern Opengl networked pong based on https://github.com/fisxoj/pnong.
 
 ##SBCL on Windows
 
+Install SBCL and Quicklisp in C:\home\ (https://www.youtube.com/watch?v=VnWVu8VVDbI)
+
+Download this repository and place it in C:\home\quicklisp\local-projects\.  
+
+Shader paths are hard coded to this home folder (e.g. c:/home/quicklisp/local-projects/pong/shaders/shader.vertexshadr).
+
 SBCL does not have a safe way to interrupt a thread and cl-sdl2 must run on the main thread. Here is the work around found at https://github.com/lispgames/cl-sdl2/issues/23
 
 ###Server
@@ -19,7 +25,7 @@ Run the following from the SBCL shell and not as an inferior-lisp in emacs.
 (sdl2:make-this-thread-main (lambda () (pong:main)))
 ```
 
-You may use slime with this SBCL image by uncommenting the first two lines and executing thecommand "slime-connect" in emacs.
+You may use slime with this SBCL image by uncommenting the two swank lines and executing the command "slime-connect" in emacs.
 
 ###Client
 
