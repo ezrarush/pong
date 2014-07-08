@@ -1,5 +1,5 @@
-
 ;;;; pong.lisp
+
 (declaim (optimize (debug 3) (speed 1) (safety 3)))
 
 (in-package #:pong)
@@ -18,7 +18,7 @@
 
 (defvar *graphics-engine*)
 
-(defun main (&optional (server-p t) (server-ip))
+(defun main (&optional (server-p t) (server-ip usocket:*wildcard-host*) (port 2448))
   (sdl2:with-init (:everything)
     (format t "Using SDL Library Version: ~D.~D.~D~%"
             sdl2-ffi:+sdl-major-version+
@@ -32,8 +32,8 @@
     
     (setf *server* server-p)
     (if (server-p)
-	(start-server)
-	(connect-to-server server-ip))
+	(start-server server-ip port)
+	(connect-to-server server-ip port))
     
 
     (sdl2:with-window (win :title (if (server-p) "Pong Server" "Pong Client") :w *window-width* :h *window-height* :flags '(:shown :opengl))
@@ -94,9 +94,9 @@
     (cond
       ;; Hit a paddle?
       
-      ;; Left Paddle
+      ;; Left Paddle (which is 10 units from half the negative window width)
       ((and (<= (aref (ball-position *ball*) 0)
-		(+ -390 (/ +paddle-width+ 2) +ball-radius+))
+		(+ (/ (- *window-width*) 2) 10 (/ +paddle-width+ 2) +ball-radius+))
             (< (aref (ball-position *ball*) 1)
       	 (+ (paddle-position *paddle-one*)
       	    (/ +paddle-height+ 2)))
@@ -105,9 +105,9 @@
       	    (/ +paddle-height+ 2))))
        (flip-x *ball*))
 
-      ;; Right paddle
+      ;; Right paddle (which is 10 units from half the positive window width)
       ((and (>= (aref (ball-position *ball*) 0)
-		(- 390 (/ +paddle-width+ 2) +ball-radius+))
+		(- (/ *window-width* 2) 10 (/ +paddle-width+ 2) +ball-radius+))
             (< (aref (ball-position *ball*) 1)
 	       (+ (paddle-position *paddle-two*)
 		  (/ +paddle-height+ 2)))
@@ -118,24 +118,24 @@
 
       ;; Hit a wall?
 
-					; left
-      ((<= (aref (ball-position *ball*) 0) (+ -390 +ball-radius+))
+      ;; left (which is 10 units form half the negative window width so that the ball does not get caught behind the paddle)
+      ((<= (aref (ball-position *ball*) 0) (+ (/ (- *window-width*) 2) 10 +ball-radius+))
        (flip-x *ball*)
        (setf (aref (ball-position *ball*) 0) 0)
        (setf (aref (ball-position *ball*) 1) 0))
 
-					; right
-      ((>= (aref (ball-position *ball*) 0) (- 390 +ball-radius+))
+      ;; right (which is 10 units form half the positive window width so that the ball does not get caught behind the paddle)
+      ((>= (aref (ball-position *ball*) 0) (- (/ *window-width* 2) 10 +ball-radius+))
        (flip-x *ball*)
        (setf (aref (ball-position *ball*) 0) 0)
        (setf (aref (ball-position *ball*) 1) 0))
-
-					; top
-      ((<= (aref (ball-position *ball*) 1) -300)
+      
+      ;; bottom (which is half the negative window height)
+      ((<= (aref (ball-position *ball*) 1) (+ (/ (- *window-height*) 2) +ball-radius+))
        (flip-y *ball*))
 
-					; bottom
-      ((>= (aref (ball-position *ball*) 1) 300)
+      ;; top (which is half the positive window height)
+      ((>= (aref (ball-position *ball*) 1) (- (/ *window-height* 2) +ball-radius+))
        (flip-y *ball*))))
   
   (dotimes (i 2)

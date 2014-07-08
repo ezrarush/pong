@@ -7,8 +7,8 @@
       (values data (read-sequence data s)))))
 
 ;; from clinch
-(defmacro ensure-float (x)
-  `(coerce ,x 'single-float))
+(defun ensure-float (x)
+  (coerce x 'single-float))
 
 ;; from glm
 (defun look-at (eye center up)

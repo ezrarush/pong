@@ -8,10 +8,10 @@
 
 (defvar *client* nil)
 
-(defun start-server (&optional (port 2448))
+(defun start-server (server-ip port)
   (assert (not *server-socket*))
   (setf *server-socket*
-	(usocket:socket-listen usocket:*wildcard-host*
+	(usocket:socket-listen server-ip
 			       port
 			       :reuseaddress t
 			       :element-type '(unsigned-byte 8))))

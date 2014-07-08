@@ -2,10 +2,10 @@
 
 (defvar *server-connection* nil)
 
-(defun connect-to-server (host-ip)
+(defun connect-to-server (server-ip port)
   (setf *server-connection*
-	(usocket:socket-connect host-ip
-				2448
+	(usocket:socket-connect server-ip
+				port
 				:element-type '(unsigned-byte 8))))
 (defun disconnect-from-server ()
   (assert *server-connection*)

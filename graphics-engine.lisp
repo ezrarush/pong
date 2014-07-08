@@ -29,13 +29,13 @@
     ;; paddle size
     (setf (scale pipeline) (sb-cga:vec (ensure-float (/ +paddle-width+ 2)) (ensure-float (/ +paddle-height+ 2)) 1.0))
 
-    ;; server's paddle
-    (setf (world-pos pipeline) (sb-cga:vec -390.0 (ensure-float (paddle-position *paddle-one*)) 0.0))
+    ;; server's paddle (which is placed 10 units form half the negative window width i.e. the left wall) 
+    (setf (world-pos pipeline) (sb-cga:vec (ensure-float (+ (/ (- *window-width*) 2) 10)) (ensure-float (paddle-position *paddle-one*)) 0.0))
     (update-transforms pipeline)
     (quad-render quad (projection-transform pipeline) (model-view-transform pipeline) (sb-cga:vec 0.0 1.0 0.0))
     
-    ;; client's paddle
-    (setf (world-pos pipeline) (sb-cga:vec 390.0 (ensure-float (paddle-position *paddle-two*)) 0.0))
+    ;; client's paddle (which is placed 10 units from half the positive window width i.e. the right wall)
+    (setf (world-pos pipeline) (sb-cga:vec (ensure-float (- (/ *window-width* 2) 10)) (ensure-float (paddle-position *paddle-two*)) 0.0))
     (update-transforms pipeline)
     (quad-render quad (projection-transform pipeline) (model-view-transform pipeline) (sb-cga:vec 0.0 1.0 0.0))
     
