@@ -10,13 +10,13 @@ Install SBCL and Quicklisp in C:\home\ (https://www.youtube.com/watch?v=VnWVu8VV
 
 Download this repository and place it in C:\home\quicklisp\local-projects\.  
 
-Shader paths are hard coded to this home folder (e.g. c:/home/quicklisp/local-projects/pong/shaders/shader.vertexshadr).
+Shader paths are hard coded to this home folder (e.g. c:\home\quicklisp\local-projects\pong\shaders\shader.vertexshader).
 
 SBCL does not have a safe way to interrupt a thread and cl-sdl2 must run on the main thread. Here is the work around found at https://github.com/lispgames/cl-sdl2/issues/23
 
 ###Server
 
-Run the following from the SBCL shell and not as an inferior-lisp in emacs.
+Run the following from the SBCL shell.
 
 ```lisp
 (ql:quickload "pong")
@@ -37,4 +37,4 @@ Run the following in a second SBCL instance shell.
 (sdl2:make-this-thread-main (lambda () (pong:main nil "127.0.0.1")))
 ```
 
-If the client is on a different host than the server, use the server's ip address instead of the home address "127.0.0.1".
+If the client is on a different host than the server, use the server's ip address instead of the loop back address "127.0.0.1".
