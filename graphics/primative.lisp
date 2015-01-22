@@ -43,7 +43,7 @@
       (gl:buffer-data :array-buffer :static-draw arr)
       (gl:free-gl-array arr))
     
-    (setf technique (make-instance 'color-technique :vs-path "/home/quicklisp/local-projects/pong/shaders/shader.vertexshader" :fs-path "/home/quicklisp/local-projects/pong/shaders/shader.fragmentshader"))))
+    (setf technique (make-instance 'color-technique :vs-path (asdf:system-relative-pathname 'pong "shaders/shader.vertexshader") :fs-path (asdf:system-relative-pathname 'pong "shaders/shader.fragmentshader")))))
 
 (defmethod quad-render ((self quad) projection-transform model-view-transform color)
   (with-slots (vertex-buffer technique) self
@@ -154,7 +154,7 @@
       (gl:buffer-data :array-buffer :static-draw arr)
       (gl:free-gl-array arr))
         
-    (setf technique (make-instance 'color-technique :vs-path "/home/quicklisp/local-projects/pong/shaders/shader.vertexshader" :fs-path "/home/quicklisp/local-projects/pong/shaders/shader.fragmentshader"))))
+    (setf technique (make-instance 'color-technique :vs-path (asdf:system-relative-pathname 'pong  "shaders/shader.vertexshader") :fs-path (asdf:system-relative-pathname 'pong  "shaders/shader.fragmentshader")))))
 
 (defmethod sphere-render ((self sphere) projection-transform model-view-transform color)
   (with-slots (vertex-buffer technique faces) self
